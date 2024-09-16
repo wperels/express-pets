@@ -495,6 +495,8 @@ textarea.form-field {
   color: #000;
   font-size: 2.25rem;
   font-weight: normal;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .form-photo img {

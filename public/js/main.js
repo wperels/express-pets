@@ -37,6 +37,9 @@ function handleButtonClick(e) {
 document.querySelector(".form-overlay").style.display = ""
 
 function openOverlay(el) {
+  document.querySelector(".form-content").dataset.id = el.dataset.id
+  document.querySelector(".form-photo p strong").textContent = el.closest(".pet-card").querySelector(".pet-name").textContent.trim() + "."
+  document.querySelector(".form-photo img").src = el.closest(".pet-card").querySelector(".pet-card-photo img").src
   document.querySelector(".form-overlay").classList.add("form-overlay--is-visible")
 }
 
@@ -46,3 +49,35 @@ function closeOverlay(el) {
   document.querySelector(".form-overlay").classList.remove("form-overlay--is-visible")
 
 }
+
+
+document.querySelector(".form-content").addEventListener("submit", async function (e) {
+  e.preventDefault()
+
+  /**
+   * An object containing user values for a pet adoption inquiry.
+   *
+   * @typedef {Object} UserValues
+   * @property {string} petId - The ID of the pet being inquired about.
+   * @property {string} name - The name of the user.
+   * @property {string} email - The email address of the user.
+   * @property {string} secret - A secret code for the user.
+   * @property {string} comment - A comment from the user.
+   */
+  const userValues = {
+    petId: e.target.dataset.id,
+    name: document.querySelector("#name").value,
+    email: document.querySelector("#email").value,
+    secret: document.querySelector("#secret").value,
+    comment: document.querySelector("#comment").value
+  }
+
+  console.log(userValues)
+  fetch("/submit-contact", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(userValues)
+  })
+})
